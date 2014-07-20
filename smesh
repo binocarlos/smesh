@@ -3,6 +3,12 @@
 #readonly IMAGE="progrium/consulate"
 readonly NAME="smesh"
 
+cmd-ip() {
+	local interface_def="$1";
+	ip=$(ifconfig $interface_def | awk -F ' *|:' '/inet addr/{print $4}')
+	echo $ip
+}
+
 start() {
 	echo "hello"
 }
@@ -11,6 +17,7 @@ main() {
 	set -eo pipefail
 	case "$1" in
 	#cmd:run)            shift; cmd-run "$@";;
+	cmd:ip)							shift; cmd-ip "$@";;
 	*)                  start "$@";;
 	esac
 }
