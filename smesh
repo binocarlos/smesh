@@ -10,7 +10,13 @@ cmd-ip() {
 }
 
 cmd-bootstrap() {
-	echo "hello"
+	local ip=$(cmd-ip $1)
+	docker run --rm progrium/consul cmd:run $ip -d
+}
+
+cmd-join() {
+	local interface="$1";
+	local join="$2";
 }
 
 cmd-dockeropts() {
@@ -36,6 +42,7 @@ main() {
 	case "$1" in
 	ip)			  					shift; cmd-ip "$@";;
 	bootstrap)					shift; cmd-bootstrap "$@";;
+	join)								shift; cmd-join "$@";;
 	dockeropts)					shift; cmd-dockeropts "$@";;
 	*)                  cmd-help "$@";;
 	esac
