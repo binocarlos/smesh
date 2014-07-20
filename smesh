@@ -5,11 +5,14 @@ readonly NAME="smesh"
 
 cmd-ip() {
 	local interface_def="$1";
+	if [ -z $interface_def ]; then
+		interface_def="eth0"
+	fi
 	ip=$(ifconfig $interface_def | awk -F ' *|:' '/inet addr/{print $4}')
 	echo $ip
 }
 
-start() {
+cmd-bootstrap() {
 	echo "hello"
 }
 
@@ -18,6 +21,7 @@ main() {
 	case "$1" in
 	#cmd:run)            shift; cmd-run "$@";;
 	cmd:ip)							shift; cmd-ip "$@";;
+	cmd:bootstrap)			shift; cmd-bootstrap "$@";;
 	*)                  start "$@";;
 	esac
 }
