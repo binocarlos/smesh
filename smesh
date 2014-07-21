@@ -81,7 +81,7 @@ cmd-stop() {
 cmd-dockeropts() {
 	local interface_ip=$(cmd-ip)
 	local bridge_ip=$(cmd-bridgeip)
-	echo "DOCKER_OPTS='-H tcp://$interface_ip:2375 --dns $bridge_ip --dns 8.8.8.8 --dns-search service.consul'" > /etc/default/docker
+	echo "DOCKER_OPTS='-H unix:///var/run/docker.sock -H tcp://$interface_ip:2375 --dns $bridge_ip --dns 8.8.8.8 --dns-search service.consul'" > /etc/default/docker
 	service docker restart
 	sleep 2
 }
