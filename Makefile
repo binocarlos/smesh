@@ -2,9 +2,10 @@ VPC_URL ?= https://raw.github.com/binocarlos/vpc/master/bootstrap.sh
 
 .PHONY: install basics docker aufs network vagrant
 
-install: basics docker script
+install: basics docker fs
 
-script:
+fs:
+	mkdir -p /var/lib/smesh
 	cp -f smesh /usr/local/bin/smesh
 	chmod a+x /usr/local/bin/smesh
 
