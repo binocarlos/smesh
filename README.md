@@ -24,27 +24,27 @@ $ sudo make install
 If you have a private network, first tell smesh which interface it should operate on:
 
 ```bash
-node-0:~$ smesh interface eth1
+smesh-0:~$ smesh interface eth1
 ```
 
 Then initiate the cluster on the first machine:
 
 ```bash
-node-0:~$ smesh bootstrap
+smesh-0:~$ smesh bootstrap
 ```
 
 Then - join the other nodes to the first nodes IP:
 
 ```bash
-node1:~$ smesh interface eth1 && smesh join 192.168.8.120
-node2:~$ smesh interface eth1 && smesh join 192.168.8.120
+smesh-1:~$ smesh interface eth1 && smesh join 192.168.8.120
+smesh-2:~$ smesh interface eth1 && smesh join 192.168.8.120
 ```
 
 Then - shutdown consul on the bootstrap server and start in join mode:
 
 ```bash
-node-0:~$ docker stop smesh && docker rm smesh
-node-0:~$ smesh join eth1 192.168.8.121
+smesh-0:~$ docker stop smesh && docker rm smesh
+smesh-0:~$ smesh join eth1 192.168.8.121
 ```
 
 The smesh cluster is now running with 3 servers.
@@ -52,7 +52,7 @@ The smesh cluster is now running with 3 servers.
 Extra servers can join as clients:
 
 ```bash
-node-8:~$ smesh client eth1 192.168.8.120
+smesh-8:~$ smesh client eth1 192.168.8.120
 ```
 
 To stop the smesh container:
