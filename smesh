@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly IMAGE="progrium/consulate"
+readonly IMAGE="progrium/consul"
 readonly NAME="smesh"
 readonly DATADIR="/var/lib/smesh/consul"
 
@@ -34,7 +34,7 @@ cmd-bootstrap() {
 	local consul=$(consul-config $interface); shift
 	local args="$@"
 	local cmd="$consul $args"
-	echo $cmd
+	$($cmd)
 }
 
 cmd-join() {
@@ -46,6 +46,11 @@ cmd-dockeropts() {
 	local bridge_ip="$(ip ro | grep docker | awk '{print $9}')"
 	echo "DOCKER_OPTS='--dns $bridge_ip --dns 8.8.8.8 --dns-search service.consul'" > /etc/default/docker
 	service docker restart
+	sleep 2
+}
+
+cmd-dockerimages() {
+	docker pull $IMAGE
 }
 
 cmd-help() {
@@ -67,6 +72,7 @@ main() {
 	bootstrap)					shift; cmd-bootstrap "$@";;
 	join)								shift; cmd-join "$@";;
 	dockeropts)					shift; cmd-dockeropts "$@";;
+	dockerimages)				shift; cmd-dockerimages "$@";;
 	*)                  cmd-help "$@";;
 	esac
 }
