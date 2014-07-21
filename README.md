@@ -30,17 +30,20 @@ node-0:~$ smesh bootstrap eth1
 Then - join the other nodes to the first nodes IP:
 
 ```bash
-node1:~$ smesh server eth1 192.168.8.120
-node2:~$ smesh server eth1 192.168.8.120
+node1:~$ smesh join eth1 192.168.8.120
+node2:~$ smesh join eth1 192.168.8.120
 ```
 
-Then - shutdown consul on the bootstrap server and start the server normally:
+Then - shutdown consul on the bootstrap server and start in join mode:
 
 ```bash
-node-0:~$ smesh reboot eth1 192.168.8.121
+node-0:~$ docker stop smesh && docker rm smesh
+node-0:~$ smesh join eth1 192.168.8.121
 ```
 
-The smesh cluster is now running - you can join subsequent servers as clients:
+The smesh cluster is now running with 3 servers.
+
+Extra servers can join as clients:
 
 ```bash
 node-8:~$ smesh client eth1 192.168.8.120
@@ -52,33 +55,35 @@ To stop the smesh container:
 $ docker stop smesh && docker rm smesh
 ```
 
+Extra arguments are passed to consul intact - these can be seen on the [docs](http://www.consul.io/docs/agent/options.html)
+
 ## api
 
-#### `smesh cmd:bootstrap <interface> [args]`
+#### `smesh bootstrap <interface> [args]`
 
 This is used on the first server to initiate a cluster.
 
 Pass the name of the interface - this is usually the private network of the host.
 
-Extra arguments are passed to consul intact
-
-#### `smesh cmd:server <interface> <join-ip> [args]`
+#### `smesh server <interface> <join-ip> [args]`
 
 This is used to bootstrap subsequent servers - pass the interface name and the IP of the initial server
 
-Extra arguments are passed to consul intact
-
-#### `smesh cmd:reboot <interface> <join-ip> [args]`
-
-Used on the first server once the subsequent ones have been setup - consul 0.4 will make this automatic.
-
-Extra arguments are passed to consul intact
-
-#### `smesh cmd:client <interface> <join-ip>`
+#### `smesh client <interface> <join-ip> [args]`
 
 This can be used on other servers in the data center that will be part of the smesh network but will not do the heavy lifting.
 
-Extra arguments are passed to consul intact
+#### `smesh members <interface>`
+
+#### `smesh consul [args]`
+
+This proxies commands to the consul binary.
+
+View hosts:
+
+```bash
+smesh consul members -rpc-addr `smesh ip eth1`:8400
+```
 
 ## notes
 
