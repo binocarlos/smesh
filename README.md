@@ -48,23 +48,31 @@ node-8:~$ smesh client eth1 192.168.8.120
 
 ## api
 
-#### `smesh cmd:bootstrap <interface>`
+#### `smesh cmd:bootstrap <interface> [args]`
 
 This is used on the first server to initiate a cluster.
 
 Pass the name of the interface - this is usually the private network of the host.
 
-#### `smesh cmd:server <interface> <join-ip>`
+Extra arguments are passed to consul intact
+
+#### `smesh cmd:server <interface> <join-ip> [args]`
 
 This is used to bootstrap subsequent servers - pass the interface name and the IP of the initial server
 
-#### `smesh cmd:reboot <interface> <join-ip>`
+Extra arguments are passed to consul intact
+
+#### `smesh cmd:reboot <interface> <join-ip> [args]`
 
 Used on the first server once the subsequent ones have been setup - consul 0.4 will make this automatic.
+
+Extra arguments are passed to consul intact
 
 #### `smesh cmd:client <interface> <join-ip>`
 
 This can be used on other servers in the data center that will be part of the smesh network but will not do the heavy lifting.
+
+Extra arguments are passed to consul intact
 
 ## notes
 

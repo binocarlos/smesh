@@ -39,7 +39,25 @@ cmd-bootstrap() {
 	local interface="$1"; shift
 	local consul=$(consul-config $interface);
 	local args="$@"
-	local cmd="$consul $args"
+	local cmd="$consul -bootstrap -server $args"
+	echo $cmd
+}
+
+cmd-join() {
+	local interface="$1"; shift
+	local join_ip="$2"; shift
+	local consul=$(consul-config $interface);
+	local args="$@"
+	local cmd="$consul -join $join_ip -server $args"
+	echo $cmd
+}
+
+cmd-client() {
+	local interface="$1"; shift
+	local join_ip="$2"; shift
+	local consul=$(consul-config $interface);
+	local args="$@"
+	local cmd="$consul -join $join_ip $args"
 	echo $cmd
 }
 
