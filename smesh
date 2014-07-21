@@ -53,7 +53,7 @@ cmd-bootstrap() {
 	local args="$@"
 	local cmd="$consul -bootstrap -server $args"
 	echo $cmd
-	#$cmd
+	$cmd
 }
 
 cmd-server() {
@@ -62,7 +62,7 @@ cmd-server() {
 	local args="$@"
 	local cmd="$consul -join $join_ip -server $args"
 	echo $cmd
-	#$cmd
+	$cmd
 }
 
 cmd-client() {
@@ -71,7 +71,7 @@ cmd-client() {
 	local args="$@"
 	local cmd="$consul -join $join_ip $args"
 	echo $cmd
-	#$cmd
+	$cmd
 }
 
 cmd-stop() {
@@ -90,8 +90,9 @@ cmd-dockerimages() {
 }
 
 cmd-consul() {
+	local interface_ip=$(cmd-ip)
 	local args="$@"
-	docker run --rm -it --entrypoint "/bin/consul" $IMAGE $args
+	docker run --rm -it --entrypoint "/bin/consul" $IMAGE $args -rpc-addr $interface_ip:8400
 }
 
 cmd-help() {
