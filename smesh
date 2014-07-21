@@ -31,9 +31,10 @@ EOF
 
 cmd-bootstrap() {
 	local interface="$1";
-	local config=$(consul-config $interface); shift
+	local consul=$(consul-config $interface); shift
 	local args="$@"
-	echo $config
+	local cmd="$consul $args"
+	echo $cmd
 }
 
 cmd-join() {
