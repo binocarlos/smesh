@@ -1,5 +1,24 @@
 #!/bin/bash
 
+readonly DATADIR="/var/lib/smesh/consul"
+
+consul-config() {
+	local external_ip=$(cmd-ip $1)
+	cat <<EOF
+eval docker run --name consul -h $HOSTNAME -v $DATADIR:/data \
+	-p $external_ip:8300:8300 \
+	-p $external_ip:8301:8301 \
+	-p $external_ip:8301:8301/udp \
+	-p $external_ip:8302:8302 \
+	-p $external_ip:8302:8302/udp \
+	-p $external_ip:8400:8400 \
+	-p $external_ip:8500:8500 \
+	-p $bridge_ip:53:53/udp \
+	$args \
+	$IMAGE -advertise $external_ip
+EOF
+}
+
 cmd-ip() {
 	local interface="$1";
 	if [ -z $interface ]; then
@@ -10,8 +29,13 @@ cmd-ip() {
 }
 
 cmd-bootstrap() {
-	local ip=$(cmd-ip $1)
-	docker run --rm progrium/consul cmd:run $ip -d
+	local interface="$1";
+	local config=$(consul-config $interface)
+	echo $config
+	
+	#local args="$@"
+	#echo $ip
+	#consul-config $ip $args
 }
 
 cmd-join() {

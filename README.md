@@ -5,8 +5,18 @@ a mesh of docker hosts using consul
 
 ## install
 
+First - ensure your hostname is set correctly.
+
+Then - install smesh:
+
 ```bash
 $ wget -qO- https://raw.github.com/binocarlos/smesh/master/bootstrap.sh | sudo bash
+```
+
+Or - git clone manually and then:
+
+```
+$ sudo make install
 ```
 
 ## usage
