@@ -19,13 +19,21 @@ Or - git clone manually and then:
 $ sudo make install
 ```
 
-## usage
-
 If you have a private network, first tell smesh which interface it should operate on:
 
 ```bash
 smesh-0:~$ smesh interface eth1
 ```
+
+Then we update the docker configuration to listen on that interface and bind to consul DNS:
+
+```bash
+smesh-0:~$ sudo smesh dockeropts
+```
+
+The above 2 steps must be repeated on each smesh server
+
+## usage
 
 Then initiate the cluster on the first machine:
 
@@ -36,8 +44,8 @@ smesh-0:~$ smesh bootstrap
 Then - join the other nodes to the first nodes IP:
 
 ```bash
-smesh-1:~$ smesh interface eth1 && smesh join 192.168.8.120
-smesh-2:~$ smesh interface eth1 && smesh join 192.168.8.120
+smesh-1:~$ smesh join 192.168.8.120
+smesh-2:~$ smesh join 192.168.8.120
 ```
 
 Then - shutdown consul on the bootstrap server and start in join mode:

@@ -1,6 +1,6 @@
 VPC_URL ?= https://raw.github.com/binocarlos/vpc/master/bootstrap.sh
 
-.PHONY: install basics docker aufs network vagrant vpc dockeropts dockerimages fs
+.PHONY: install basics docker aufs network vagrant vpc dockerimages fs
 
 install: basics docker fs dockeropts dockerimages
 
@@ -12,9 +12,6 @@ fs:
 basics:
 	apt-get update
 	apt-get install -y git curl
-
-dockeropts:
-	./smesh dockeropts
 
 dockerimages:
 	./smesh dockerimages

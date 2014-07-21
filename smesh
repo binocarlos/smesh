@@ -79,8 +79,9 @@ cmd-stop() {
 }
 
 cmd-dockeropts() {
+	local interface_ip=$(cmd-ip)
 	local bridge_ip=$(cmd-bridgeip)
-	echo "DOCKER_OPTS='--dns $bridge_ip --dns 8.8.8.8 --dns-search service.consul'" > /etc/default/docker
+	echo "DOCKER_OPTS='-H tcp://$interface_ip:2375 --dns $bridge_ip --dns 8.8.8.8 --dns-search service.consul'" > /etc/default/docker
 	service docker restart
 	sleep 2
 }
@@ -100,6 +101,7 @@ cmd-help() {
     cat<<EOF
     help                        Print the list of commands
     interface [name]            Set/get the name of the interface smesh will use
+    dockeropts                  Update the docker options
     ip [interface]              Print the IP address for a given interface
     bootstrap [interface]       Start a new cluster
     server [interface] [joinip] Join an existing cluster as a server
@@ -113,7 +115,7 @@ EOF
 
 main() {
 	case "$1" in
-	interface)					shift; cmd-interface "$@";;
+	interface)				  shift; cmd-interface "$@";;
 	ip)			  					shift; cmd-ip "$@";;
 	bootstrap)					shift; cmd-bootstrap "$@";;
 	server)							shift; cmd-server "$@";;
