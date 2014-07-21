@@ -59,6 +59,14 @@ Extra arguments are passed to consul intact - these can be seen on the [docs](ht
 
 ## api
 
+#### `smesh interface [name]`
+
+Set/get the name of the interface that consul will listen on - this is normally the private network but will default to eth0.
+
+```bash
+$ sudo smesh interface eth1
+```
+
 #### `smesh bootstrap <interface> [args]`
 
 This is used on the first server to initiate a cluster.

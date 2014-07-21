@@ -3,7 +3,7 @@
 readonly IMAGE="progrium/consul"
 readonly NAME="smesh"
 readonly DATADIR="/var/lib/smesh/consul"
-readonly INTERFACEFILE="/etc/smesh/interface"
+readonly INTERFACEFILE="$HOME/.smeshinterface"
 
 cmd-ip() {
 	local interface="$1";
