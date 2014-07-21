@@ -24,26 +24,26 @@ $ sudo make install
 Initiate the cluster on eth1 (the private network) of the first machine:
 
 ```bash
-node-0:~$ smesh cmd:bootstrap eth1
+node-0:~$ smesh bootstrap eth1
 ```
 
 Then - join the other nodes to the first nodes IP:
 
 ```bash
-node1:~$ smesh cmd:server eth1 192.168.8.120
-node2:~$ smesh cmd:server eth1 192.168.8.120
+node1:~$ smesh server eth1 192.168.8.120
+node2:~$ smesh server eth1 192.168.8.120
 ```
 
 Then - shutdown consul on the bootstrap server and start the server normally:
 
 ```bash
-node-0:~$ smesh cmd:reboot eth1 192.168.8.121
+node-0:~$ smesh reboot eth1 192.168.8.121
 ```
 
 The smesh cluster is now running - you can join subsequent servers as clients:
 
 ```bash
-node-8:~$ smesh cmd:client eth1 192.168.8.120
+node-8:~$ smesh client eth1 192.168.8.120
 ```
 
 ## api
