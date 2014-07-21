@@ -21,17 +21,23 @@ $ sudo make install
 
 ## usage
 
-Initiate the cluster on eth1 (the private network) of the first machine:
+If you have a private network, first tell smesh which interface it should operate on:
 
 ```bash
-node-0:~$ smesh bootstrap eth1
+node-0:~$ smesh interface eth1
+```
+
+Then initiate the cluster on the first machine:
+
+```bash
+node-0:~$ smesh bootstrap
 ```
 
 Then - join the other nodes to the first nodes IP:
 
 ```bash
-node1:~$ smesh join eth1 192.168.8.120
-node2:~$ smesh join eth1 192.168.8.120
+node1:~$ smesh interface eth1 && smesh join 192.168.8.120
+node2:~$ smesh interface eth1 && smesh join 192.168.8.120
 ```
 
 Then - shutdown consul on the bootstrap server and start in join mode:
@@ -55,7 +61,7 @@ To stop the smesh container:
 $ docker stop smesh && docker rm smesh
 ```
 
-Extra arguments are passed to consul intact - these can be seen on the [docs](http://www.consul.io/docs/agent/options.html)
+Extra arguments are passed to consul intact - [list of cli options](http://www.consul.io/docs/agent/options.html)
 
 ## api
 
@@ -67,30 +73,30 @@ Set/get the name of the interface that consul will listen on - this is normally 
 $ sudo smesh interface eth1
 ```
 
-#### `smesh bootstrap <interface> [args]`
+#### `smesh bootstrap [args]`
 
-This is used on the first server to initiate a cluster.
+This is used on the first server to initiate a cluster - args are passed to consul.
 
-Pass the name of the interface - this is usually the private network of the host.
-
-#### `smesh server <interface> <join-ip> [args]`
+#### `smesh server <join-ip> [args]`
 
 This is used to bootstrap subsequent servers - pass the interface name and the IP of the initial server
 
-#### `smesh client <interface> <join-ip> [args]`
+#### `smesh client <join-ip> [args]`
 
 This can be used on other servers in the data center that will be part of the smesh network but will not do the heavy lifting.
 
-#### `smesh members <interface>`
-
 #### `smesh consul [args]`
 
-This proxies commands to the consul binary.
-
-View hosts:
+This proxies commands to the consul binary and sets the -rpc-addr automatically
 
 ```bash
-smesh consul members -rpc-addr `smesh ip eth1`:8400
+$ smesh consul members
+```
+
+is expanded to:
+
+```bash
+$ smesh consul members -rpc-addr `smesh ip eth1`:8400
 ```
 
 ## notes

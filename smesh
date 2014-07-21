@@ -5,20 +5,6 @@ readonly NAME="smesh"
 readonly DATADIR="/var/lib/smesh/consul"
 readonly INTERFACEFILE="$HOME/.smeshinterface"
 
-cmd-ip() {
-	local interface="$1";
-	if [ -z $interface ]; then
-		interface="eth0"
-	fi
-	ip=$(ifconfig $interface | awk -F ' *|:' '/inet addr/{print $4}')
-	echo $ip
-}
-
-cmd-bridgeip() {
-	local bridgeip="$(ip ro | grep docker | awk '{print $9}')"
-	echo $bridgeip
-}
-
 cmd-interface() {
 	local interface="$1";
 	if [ ! -z $interface ]; then
@@ -34,50 +20,62 @@ cmd-interface() {
 	echo $interface
 }
 
+cmd-ip() {
+	local interface=$(cmd-interface)
+	ip=$(ifconfig $interface | awk -F ' *|:' '/inet addr/{print $4}')
+	echo $ip
+}
+
+cmd-bridgeip() {
+	local bridgeip="$(ip ro | grep docker | awk '{print $9}')"
+	echo $bridgeip
+}
+
 consul-config() {
-	local external_ip=$(cmd-ip $1)
+	local interface_ip=$(cmd-ip)
 	local bridge_ip=$(cmd-bridgeip)
 	cat <<EOF
 eval docker run -t -d --name $NAME -h $HOSTNAME -v $DATADIR:/data \
-	-p $external_ip:8300:8300 \
-	-p $external_ip:8301:8301 \
-	-p $external_ip:8301:8301/udp \
-	-p $external_ip:8302:8302 \
-	-p $external_ip:8302:8302/udp \
-	-p $external_ip:8400:8400 \
-	-p $external_ip:8500:8500 \
+	-p $interface_ip:8300:8300 \
+	-p $interface_ip:8301:8301 \
+	-p $interface_ip:8301:8301/udp \
+	-p $interface_ip:8302:8302 \
+	-p $interface_ip:8302:8302/udp \
+	-p $interface_ip:8400:8400 \
+	-p $interface_ip:8500:8500 \
 	-p $bridge_ip:53:53/udp \
-	$IMAGE -advertise $external_ip
+	$IMAGE -advertise $interface_ip
 EOF
 }
 
 cmd-bootstrap() {
-	local interface="$1"; shift
-	local consul=$(consul-config $interface);
+	local consul=$(consul-config);
 	local args="$@"
 	local cmd="$consul -bootstrap -server $args"
 	echo $cmd
-	$cmd
+	#$cmd
 }
 
 cmd-server() {
-	local interface="$1"; shift
 	local join_ip="$1"; shift
-	local consul=$(consul-config $interface);
+	local consul=$(consul-config);
 	local args="$@"
 	local cmd="$consul -join $join_ip -server $args"
 	echo $cmd
-	$cmd
+	#$cmd
 }
 
 cmd-client() {
-	local interface="$1"; shift
-	local join_ip="$2"; shift
-	local consul=$(consul-config $interface);
+	local join_ip="$1"; shift
+	local consul=$(consul-config);
 	local args="$@"
 	local cmd="$consul -join $join_ip $args"
 	echo $cmd
-	$cmd
+	#$cmd
+}
+
+cmd-stop() {
+	docker stop smesh && docker rm smesh
 }
 
 cmd-dockeropts() {
@@ -103,8 +101,10 @@ cmd-help() {
     interface [name]            Set/get the name of the interface smesh will use
     ip [interface]              Print the IP address for a given interface
     bootstrap [interface]       Start a new cluster
-    join [interface] [joinip]   Join an existing cluster as a server
+    server [interface] [joinip] Join an existing cluster as a server
     client [interface] [joinip] Join an existing cluster as a client
+    consul [args]               Join an existing cluster as a client
+    stop                        Stop and remove the docker container
     consul [args]               Run consul
 EOF
 	echo
@@ -118,6 +118,7 @@ main() {
 	server)							shift; cmd-server "$@";;
 	client)							shift; cmd-client "$@";;
 	consul)							shift; cmd-consul "$@";;
+	stop)							  shift; cmd-stop "$@";;
 	dockeropts)					shift; cmd-dockeropts "$@";;
 	dockerimages)				shift; cmd-dockerimages "$@";;
 	*)                  cmd-help "$@";;
