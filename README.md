@@ -3,6 +3,8 @@ smesh
 
 a mesh of docker hosts using consul
 
+![Smesh](https://github.com/binocarlos/smesh/raw/master/exchange.jpg)
+
 ## install
 
 First - ensure your hostname is set correctly.
