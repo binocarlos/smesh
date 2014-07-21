@@ -46,6 +46,12 @@ The smesh cluster is now running - you can join subsequent servers as clients:
 node-8:~$ smesh client eth1 192.168.8.120
 ```
 
+To stop the smesh container:
+
+```
+$ docker stop smesh && docker rm smesh
+```
+
 ## api
 
 #### `smesh cmd:bootstrap <interface> [args]`

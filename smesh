@@ -31,6 +31,7 @@ eval docker run --name $NAME -h $HOSTNAME -v $DATADIR:/data \
 	-p $external_ip:8400:8400 \
 	-p $external_ip:8500:8500 \
 	-p $bridge_ip:53:53/udp \
+	-d \
 	$IMAGE -advertise $external_ip
 EOF
 }
@@ -41,6 +42,7 @@ cmd-bootstrap() {
 	local args="$@"
 	local cmd="$consul -bootstrap -server $args"
 	echo $cmd
+	$cmd
 }
 
 cmd-join() {
@@ -50,6 +52,7 @@ cmd-join() {
 	local args="$@"
 	local cmd="$consul -join $join_ip -server $args"
 	echo $cmd
+	$($cmd)
 }
 
 cmd-client() {
@@ -59,6 +62,7 @@ cmd-client() {
 	local args="$@"
 	local cmd="$consul -join $join_ip $args"
 	echo $cmd
+	$($cmd)
 }
 
 cmd-dockeropts() {
