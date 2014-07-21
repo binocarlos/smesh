@@ -56,6 +56,10 @@ Used on the first server once the subsequent ones have been setup - consul 0.4 w
 
 This can be used on other servers in the data center that will be part of the smesh network but will not do the heavy lifting.
 
+## notes
+
+smesh will create a data folder `/var/lib/smesh/consul` which is a persistent folder that contains consul data
+
 ## license
 
 MIT

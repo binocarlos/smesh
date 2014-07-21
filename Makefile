@@ -2,16 +2,19 @@ VPC_URL ?= https://raw.github.com/binocarlos/vpc/master/bootstrap.sh
 
 .PHONY: install basics docker aufs network vagrant
 
-install: basics docker fs
+install: basics docker fs dockeropts
 
 fs:
-	mkdir -p /var/lib/smesh
+	mkdir -p /var/lib/smesh/consul
 	cp -f smesh /usr/local/bin/smesh
 	chmod a+x /usr/local/bin/smesh
 
 basics:
 	apt-get update
 	apt-get install -y git curl
+
+dockeropts:
+	./smesh dockeropts
 
 docker: aufs network
 	egrep -i "^docker" /etc/group || groupadd docker
