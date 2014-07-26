@@ -46,15 +46,15 @@ smesh-0:~$ smesh bootstrap
 Then - join the other nodes to the first nodes IP:
 
 ```bash
-smesh-1:~$ smesh join 192.168.8.120
-smesh-2:~$ smesh join 192.168.8.120
+smesh-1:~$ smesh server 192.168.8.120
+smesh-2:~$ smesh server 192.168.8.120
 ```
 
 Then - shutdown consul on the bootstrap server and start in join mode:
 
 ```bash
 smesh-0:~$ smesh stop
-smesh-0:~$ smesh join 192.168.8.121
+smesh-0:~$ smesh server 192.168.8.121
 ```
 
 The smesh cluster is now running with 3 servers.

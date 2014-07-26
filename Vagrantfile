@@ -21,15 +21,6 @@ Vagrant::VERSION >= "1.1.0" and Vagrant.configure("2") do |config|
         slave.vm.network :forwarded_port, guest: 80, host: 8080
       end
 
-      $provision_script = <<PROVISION_SCRIPT
-echo "installing smesh"
-hostname smesh-#{i}
-echo "smesh-#{i}" > /etc/hostname
-echo "192.168.8.120   smesh-0" >> /etc/hosts
-echo "192.168.8.121   smesh-1" >> /etc/hosts
-echo "192.168.8.122   smesh-2" >> /etc/hosts
-PROVISION_SCRIPT
-
       slave.vm.provision "shell", inline: <<SCRIPT
 echo "installing smesh"
 hostname smesh-#{i}
