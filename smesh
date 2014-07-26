@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly IMAGE="progrium/consul"
+readonly IMAGE="binocarlos/smesh"
 readonly NAME="smesh"
 readonly DATADIR="/var/lib/smesh/consul"
 readonly INTERFACEFILE="$HOME/.smeshinterface"
