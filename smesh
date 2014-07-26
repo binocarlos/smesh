@@ -83,6 +83,10 @@ cmd-rejoin() {
 	cmd-server $@
 }
 
+cmd-reset() {
+	sudo rm -rf $DATADIR
+}
+
 cmd-dockeropts() {
 	local interface_ip=$(cmd-ip)
 	local bridge_ip=$(cmd-bridgeip)
@@ -114,6 +118,7 @@ cmd-help() {
     rejoin [joinip]             Turn a bootstrapped node into a normal server
     consul [args]               Join an existing cluster as a client
     stop                        Stop and remove the docker container
+    reset                       Remove the shared data directory
     consul [args]               Run consul
 EOF
 	echo
@@ -129,6 +134,7 @@ main() {
   rejoin)							shift; cmd-rejoin "$@";;
 	consul)							shift; cmd-consul "$@";;
 	stop)							  shift; cmd-stop "$@";;
+  reset)  					  shift; cmd-reset "$@";;
 	dockeropts)					shift; cmd-dockeropts "$@";;
 	dockerimages)				shift; cmd-dockerimages "$@";;
 	*)                  cmd-help "$@";;
