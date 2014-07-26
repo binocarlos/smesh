@@ -78,6 +78,11 @@ cmd-stop() {
 	docker stop smesh && docker rm smesh
 }
 
+cmd-rejoin() {
+	cmd-stop
+	cmd-server $@
+}
+
 cmd-dockeropts() {
 	local interface_ip=$(cmd-ip)
 	local bridge_ip=$(cmd-bridgeip)
@@ -103,9 +108,10 @@ cmd-help() {
     interface [name]            Set/get the name of the interface smesh will use
     dockeropts                  Update the docker options
     ip [interface]              Print the IP address for a given interface
-    bootstrap [interface]       Start a new cluster
-    server [interface] [joinip] Join an existing cluster as a server
-    client [interface] [joinip] Join an existing cluster as a client
+    bootstrap                   Start a new cluster
+    server [joinip]             Join an existing cluster as a server
+    client [joinip]             Join an existing cluster as a client
+    rejoin [joinip]             Turn a bootstrapped node into a normal server
     consul [args]               Join an existing cluster as a client
     stop                        Stop and remove the docker container
     consul [args]               Run consul
@@ -120,6 +126,7 @@ main() {
 	bootstrap)					shift; cmd-bootstrap "$@";;
 	server)							shift; cmd-server "$@";;
 	client)							shift; cmd-client "$@";;
+  rejoin)							shift; cmd-rejoin "$@";;
 	consul)							shift; cmd-consul "$@";;
 	stop)							  shift; cmd-stop "$@";;
 	dockeropts)					shift; cmd-dockeropts "$@";;
