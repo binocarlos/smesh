@@ -56,7 +56,7 @@ function dockerOpts(){
   return docker
 }
 
-function etcdOpts(token){
+function etcdOpts(){
 
 	var volume = (args.volume || '').split(':')[1]
 
@@ -84,7 +84,7 @@ function etcdOpts(token){
     '-snapshot-count',
     args.snapshot,
     '-discovery',
-    token
+    args.token
   ]
 
   return etcd
@@ -104,7 +104,8 @@ function commandStart(){
   checkArg('address')
   checkArg('token')
   checkArg('hostname')
-	console.log('start')
+  var command = ['eval', 'docker'].concat(dockerOpts(), etcdOpts())
+  console.log(command.join(' '))
 }
 
 function commandStop(){
