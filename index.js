@@ -108,14 +108,9 @@ function commandStart(){
   console.log(command.join(' '))
 }
 
-function commandStop(){
-	return 'stop'
-}
-
 var commands = {
 	token:commandToken,
-	start:commandStart,
-	stop:commandStop
+	start:commandStart
 }
 
 var command = args._[2] || 'start'
