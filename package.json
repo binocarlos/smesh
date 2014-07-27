@@ -1,0 +1,27 @@
+{
+  "name": "smesh",
+  "version": "0.0.0",
+  "description": "manage a mesh of docker and etcd hosts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/binocarlos/smesh.git"
+  },
+  "keywords": [
+    "mesh",
+    "docker",
+    "etcd"
+  ],
+  "author": "Kai Davenport",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/binocarlos/smesh/issues"
+  },
+  "homepage": "https://github.com/binocarlos/smesh",
+  "dependencies": {
+    "minimist": "^0.2.0"
+  }
+}
