@@ -21,19 +21,13 @@ var args = require('minimist')(process.argv, {
 })
 
 
-function checkAddress(){
-  if(!args.address){
-    console.error('[error] please provide an --address argument')
+function checkArg(name){
+  if(!args[name]){
+    console.error('[error] please provide a ' + name + ' argument')
     process.exit(1)
   }    
 }
 
-function checkToken(){
-  if(!args.token){
-  	console.error('[error] please provide a --token argument - run the token command to generate one')
-  	process.exit(1)
-  }
-}
 
 function getToken(done){
   var req = hyperquest('https://discovery.etcd.io/new').pipe(concat(function(token){
@@ -107,9 +101,10 @@ function commandToken(){
 }
 
 function commandStart(){
-  checkAddress()
-  checkToken()
-	return 'start'
+  checkArg('address')
+  checkArg('token')
+  checkArg('hostname')
+	console.log('start')
 }
 
 function commandStop(){
