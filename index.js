@@ -1,7 +1,5 @@
-console.log('-------------------------------------------');
-console.dir(process.argv)
-process.exit()
-
+var hyperquest = require('hyperquest')
+var concat = require('concat-stream')
 var args = require('minimist')(process.argv, {
 	alias:{
 		bind:'b',
@@ -22,18 +20,27 @@ var args = require('minimist')(process.argv, {
 	}
 })
 
-console.log('-------------------------------------------');
-console.dir(args)
-process.exit()
 
-if(!args.address){
-	console.error('[error] please provide an --address argument')
-	process.exit(1)
+function checkAddress(){
+  if(!args.address){
+    console.error('[error] please provide an --address argument')
+    process.exit(1)
+  }    
 }
 
-if(!args.token){
-	console.error('[error] please provide either --token or --bootstrap argument')
-	process.exit(1)
+function checkToken(){
+  if(!args.token){
+  	console.error('[error] please provide a --token argument - run the token command to generate one')
+  	process.exit(1)
+  }
+}
+
+function getToken(done){
+  var req = hyperquest('https://discovery.etcd.io/new').pipe(concat(function(token){
+    done(null, token.toString())
+  }))
+
+  req.on('error', done)
 }
 
 function dockerOpts(){
@@ -90,10 +97,18 @@ function etcdOpts(token){
 }
 
 function commandToken(){
-	return 'token'
+	getToken(function(err, token){
+    if(err){
+      console.error(err)
+      process.exit(1)
+    }
+    console.log(token)
+  })
 }
 
 function commandStart(){
+  checkAddress()
+  checkToken()
 	return 'start'
 }
 
@@ -109,4 +124,4 @@ var commands = {
 
 var command = args._[2] || 'start'
 
-console.log(commands[command]())
+commands[command]()
