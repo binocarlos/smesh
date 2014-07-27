@@ -58,18 +58,11 @@ node2:~$ SMESH_IP=192.168.8.121
 node2:~$ $(docker run --rm binocarlos/smesh start --token $SMESH_TOKEN --hostname $HOSTNAME --address $SMESH_IP)
 ```
 
-Now there is a cluster of 3 etcd servers running.
-
-We can export the SMESH_PEERS variable with all three hosts:
-
-```
-node1:-$ export SMESH_PEERS=192.168.8.120:4001,192.168.8.121:4001,192.168.8.122:4001
-```
-
-you can run etcdctl on one of the servers:
+Now there is a cluster of 3 etcd servers running - you can run etcdctl on one of the servers:
 
 ```bash
-node1:-$ docker run --rm binocarlos/etcdctl --peers $SMESH_PEERS ls / --recursive
+node1:-$ docker run --rm binocarlos/etcdctl --peers 192.168.8.120:4001 set /apples hello
+node1:-$ docker run --rm binocarlos/etcdctl --peers 192.168.8.120:4001 ls / --recursive
 ```
 
 to stop the smesh container:
