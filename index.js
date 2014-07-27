@@ -66,7 +66,7 @@ function etcdOpts(){
 
   var etcd = [
     '-name',
-    args.name,
+    args.hostname,
     '-bind-addr',
     args.bind + ':4001',
     '-addr',
