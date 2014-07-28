@@ -5,3 +5,4 @@ ADD . /srv/smesh
 RUN cd /srv/smesh && npm install
 
 ENTRYPOINT ["/usr/local/bin/node", "/srv/smesh"]
+CMD [""]
