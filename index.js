@@ -8,6 +8,7 @@ var args = require('minimist')(process.argv, {
 		image:'i',
 		token:'t',
 		volume:'v',
+    peers:'pe',
     port:'p',
     peerport:'pp'
 	},
@@ -86,10 +87,22 @@ function etcdOpts(){
     '-data-dir',
     volume,
     '-snapshot-count',
-    args.snapshot,
-    '-discovery',
-    args.token
+    args.snapshot
   ]
+
+  if(args.token){
+    etcd = etcd.concat([
+      '-discovery',
+      args.token
+    ])
+  }
+  
+  if(args.peers && args.peers!='boot'){
+    etcd = etcd.concat([
+      '-peers',
+      args.peers
+    ]) 
+  }
 
   return etcd
 }
@@ -106,8 +119,11 @@ function commandToken(){
 
 function commandStart(){
   checkArg('address')
-  checkArg('token')
   checkArg('hostname')
+  if(!args.token && !args.peers){
+    console.error('please provide either a token or peers option')
+    process.exit(1)
+  }
   var command = ['eval', 'docker'].concat(dockerOpts(), etcdOpts())
   console.log(command.join(' '))
 }

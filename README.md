@@ -71,6 +71,22 @@ to stop the smesh container:
 node1:~$ docker stop smesh && docker rm smesh
 ```
 
+## manual peers
+
+You can use the --peers option rather than --token if you want to manually co-ordinate the cluster:
+
+```bash
+node1:~$ $(docker run --rm binocarlos/smesh start --hostname $HOSTNAME --address 192.168.8.120 --peers boot)
+```
+
+```bash
+node2:~$ $(docker run --rm binocarlos/smesh start --hostname $HOSTNAME --address 192.168.8.121 --peers 192.168.8.120:7001,192.168.8.122:7001)
+```
+
+```bash
+node3:~$ $(docker run --rm binocarlos/smesh start --hostname $HOSTNAME --address 192.168.8.122 --peers 192.168.8.120:7001,192.168.8.121:7001)
+```
+
 ## license
 
 MIT
