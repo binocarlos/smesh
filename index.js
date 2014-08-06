@@ -10,6 +10,7 @@ var args = require('minimist')(process.argv, {
 		volume:'v',
     peers:'pe',
     port:'p',
+    dockerargs:'dargs',
     peerport:'pp'
 	},
 	default:{
@@ -30,7 +31,7 @@ function checkArg(name){
   if(!args[name]){
     console.error('[error] please provide a ' + name + ' argument')
     process.exit(1)
-  }    
+  }
 }
 
 
@@ -55,6 +56,7 @@ function dockerOpts(){
     args.port + ':4001',
     '-p',
     args.peerport + ':7001',
+    args.dockerargs || '',
     args.image
   ]
 
