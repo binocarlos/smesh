@@ -18,7 +18,7 @@ var args = require('minimist')(process.argv, {
     port:4001,
     peerport:7001,
 		name:'smesh',
-		image:'binocarlos/etcd',
+		image:'coreos/etcd',
 		heartbeat:100,
 		election:700,
 		snapshot:100,

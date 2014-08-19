@@ -9,7 +9,7 @@ manage a mesh of docker and etcd hosts
 
 First - ensure your hostname is set correctly.
 
-Then install docker - you can use [docker-install](https://github.com/binocarlos/docker-install) for this.
+Then [install docker](https://github.com/binocarlos/docker-install).
 
 ```bash
 $ wget -qO- https://raw.github.com/binocarlos/docker-install/master/bootstrap.sh | sudo bash
@@ -27,7 +27,7 @@ Then pull the required images:
 
 ```bash
 $ docker pull binocarlos/smesh
-$ docker pull binocarlos/etcd
+$ docker pull coreos/etcd
 ```
 
 ## usage
