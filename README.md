@@ -1,7 +1,7 @@
 smesh
 =====
 
-manage a mesh of docker and etcd hosts
+manage a mesh of etcd hosts
 
 ![Smesh](https://github.com/binocarlos/smesh/raw/master/exchange.jpg)
 
