@@ -75,7 +75,7 @@ function etcdOpts(){
     '-name',
     args.hostname,
     '-bind-addr',
-    args.bind + ':' + args.port,
+    '0.0.0.0:' + args.port,
     '-addr',
     args.address + ':' + args.port,
     '-peer-heartbeat-interval',
