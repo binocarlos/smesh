@@ -83,7 +83,7 @@ function etcdOpts(){
     '-peer-election-timeout',
     args.election,
     '-peer-bind-addr',
-    args.bind + ':' + args.peerport,
+    '0.0.0.0:' + args.peerport,
     '-peer-addr',
     args.address + ':' + args.peerport,
     '-data-dir',
