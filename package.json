@@ -1,6 +1,6 @@
 {
   "name": "smesh",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "manage a mesh of docker and etcd hosts",
   "main": "index.js",
   "scripts": {
