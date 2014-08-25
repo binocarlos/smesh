@@ -53,9 +53,9 @@ function dockerOpts(){
     '-v',
     args.volume,
     '-p',
-    args.port + ':4001',
+    args.bind + ':' + args.port + ':4001',
     '-p',
-    args.peerport + ':7001',
+    args.bind + ':' + args.peerport + ':7001',
     args.dockerargs || '',
     args.image
   ]
